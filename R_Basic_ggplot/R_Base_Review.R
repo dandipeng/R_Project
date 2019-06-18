@@ -2,17 +2,17 @@
 # get directory
 getwd()
 # reset directory
-setwd('Documents/Programming/R_Project/STA141A/')
+setwd('Documents/Programming/R_Project/R_Basic_ggplot/')
 # list files/directories in a directory
 list.files()
 setwd('..') # set directory to the parent one
 list.dirs()
 # reset to what we want
-setwd('STA141A/')
+setwd('R_Basic_ggplot/')
 # list all items in current global environment
 ls()
 # read data inside
-dogs <- readRDS('dogs_full.rds')
+dogs <- readRDS('data/dogs/dogs_full.rds')
 
 # dataset structure
 head(dogs,5)
@@ -102,7 +102,7 @@ dogs$size[20:30]
 levels(dogs$size) = c("HUGE", "Medium", "Small") # this will correspond to the output of levels(dogs$size)
 levels(dogs$size)
 dogs$size[20:30]
-dogs <- readRDS('dogs_full.rds')
+dogs <- readRDS('data/dogs/dogs_full.rds')
 
 # Right way to reorder levels:
 size_fix = factor(dogs$size, c("small", "medium", "large"))
@@ -211,3 +211,57 @@ grid.arrange(g1, g2, g3, g4, ncol = 2, nrow = 2)
 match(c("A","D"),c("A","B","C","D","E")) # 1 4
 match(c("A","D"),c("A","B","C","D","E")) # 1 NA
 
+
+#read csv
+air = read.csv('data/airlines/2018.01_air_delays.csv', header = T)
+
+head(air)
+names(air)
+dim(air)
+summary(air)
+str(air)
+
+# quite messy for every variables
+day_of_week = factor(air$DAY_OF_WEEK)
+class(air$DAY_OF_WEEK)
+
+days = read.csv("data/airlines/L_WEEKDAYS.csv_")
+days
+str(days)
+levels(day_of_week)
+m = match(day_of_week, days$Code)
+
+day_of_week = days$Description[m]
+
+air$DAY_OF_WEEK = day_of_week
+
+
+air$ontime <- air$ARR_DELAY<=0
+ggplot(air,aes(ontime, fill = OP_UNIQUE_CARRIER))+
+  geom_bar(position = "dodge")
+ggplot(air,aes(ontime, fill = OP_UNIQUE_CARRIER))+
+  geom_bar(position = "stack")
+
+air_complete = air[complete.cases(air), ]
+str(air_complete) # no observations
+str(air[rowSums(is.na(air['WEATHER_DELAY']))==0,]) # exclude the NA noise
+
+# What kinds of questions can we ask (or answer) with the airlines data?
+#
+# * What airports are most likely to have delays? Or least likely?
+aggregate(height ~ size + grooming, dogs, mean, na.rm = TRUE)
+num_delay_air <- aggregate(DAY_OF_WEEK~OP_UNIQUE_CARRIER,air,FUN=length)
+num_delay_air <- num_delay_air[order(num_delay_air$DAY_OF_WEEK),]
+ggplot(num_delay_air,aes(x=OP_UNIQUE_CARRIER,y=DAY_OF_WEEK))+
+  geom_bar(stat='identity')
+
+ggplot(air,aes(x=ontime,fill=OP_UNIQUE_CARRIER))+geom_bar(position='dodge')
+check_num_delay <- table(air$ontime,air$OP_UNIQUE_CARRIER)
+colnames(check_num_delay)[which(order(check_num_delay[2,],decreasing = T)==1)]
+
+# * Check for seasonal delays (but we would need data on more months)
+# * What area or region is most likely to have delays?
+# * What are the main causes of delay?
+#     * How often does weather cause a delay?
+# * Does a delay on one flight cause later delays (for the same plane)?
+na.omit(air)
