@@ -182,3 +182,32 @@ ggplot(dogs, aes(height)) + geom_histogram() + facet_wrap(~ size)
 
 # Dog height distributions, faceted by grooming needs and size:
 ggplot(dogs, aes(height)) + geom_histogram() + facet_grid(grooming ~ size)
+
+# If we use a density plot, how can we display the groups?
+ggplot(dogs, aes(color = group, height)) + geom_density()
+
+# Too many lines! We can use a ridge plot instead to show many densities at
+# once.
+library(ggridges)
+
+ggplot(dogs, aes(x = height, y = group)) + geom_density_ridges()
+
+# Putting ggplots side-by-side:
+g1 = ggplot(anscombe, aes(x1, y1)) + geom_point()
+g2 = ggplot(anscombe, aes(x2, y2)) + geom_point()
+g3 = ggplot(anscombe, aes(x3, y3)) + geom_point()
+g4 = ggplot(anscombe, aes(x4, y4)) + geom_point()
+library(gridExtra)
+grid.arrange(g1, g2, g3, g4, ncol = 2, nrow = 2)
+
+# If we want to make our own bins:
+#   * cut() -- built-in
+#   * cut_interval(), cut_number(), cut_width() -- in ggplot2
+# cut continuous variables into several intervals
+
+
+
+# match(M,N) method: give indexes of M in N
+match(c("A","D"),c("A","B","C","D","E")) # 1 4
+match(c("A","D"),c("A","B","C","D","E")) # 1 NA
+
