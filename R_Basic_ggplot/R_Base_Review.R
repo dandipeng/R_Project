@@ -14,6 +14,14 @@ ls()
 # read data inside
 dogs <- readRDS('data/dogs/dogs_full.rds')
 
+# read xls
+library(readxl)
+mortality = read_excel("mortality.xls")
+
+# read from website
+bone = read.table("https://web.stanford.edu/~hastie/ElemStatLearn/datasets/bone.data", 
+                  header = TRUE)
+
 # dataset structure
 head(dogs,5)
 nrow(dogs)
@@ -103,6 +111,10 @@ levels(dogs$size) = c("HUGE", "Medium", "Small") # this will correspond to the o
 levels(dogs$size)
 dogs$size[20:30]
 dogs <- readRDS('data/dogs/dogs_full.rds')
+
+# change variables from factor to numeric
+# Concern! first as.character, then as.numeric
+as.numeric(as.character())
 
 # Right way to reorder levels:
 size_fix = factor(dogs$size, c("small", "medium", "large"))
