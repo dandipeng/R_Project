@@ -1,0 +1,300 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={STA 138 Project Problem 2},
+            pdfauthor={Dandi Peng, Yuhan Ning},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{STA 138 Project Problem 2}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Dandi Peng, Yuhan Ning}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2/1/2019}
+
+
+\begin{document}
+\maketitle
+
+\subsection{1. Introduction}\label{introduction}
+
+ We are interested in how gender and death type are related in dataset
+`horror'. In this project, we aim to check dependence of two variables
+with assumption that all samples are random.
+
+\subsection{2. Summary}\label{summary}
+
+\includegraphics[width=0.5\linewidth]{problem_2_files/figure-latex/unnamed-chunk-1-1}
+\includegraphics[width=0.5\linewidth]{problem_2_files/figure-latex/unnamed-chunk-1-2}
+There are 251 samples in the dataset `horror' and the two-way table of
+counts are shown below:
+
+\begin{verbatim}
+##         death
+## gen      BFT Other Shot Stabbed
+##   Female  38    28   23      61
+##   Male    14     6   39      42
+\end{verbatim}
+
+ We plot barplot and mosaicplot to catch a better glimpse of the counts
+in different categories. Clearly, for different death types, group
+female has highest number of deaths in level `Other' and lowest number
+of deaths in `Shot'. The uneven distribution of counts implies the two
+factors may not be independent. Therefore, we use hypothesis tests and
+confidence intervals to check further.
+
+\subsection{3. Analysis}\label{analysis}
+
+\textbf{Pearson's Chi-Square Test}
+
+\(H0: P(female|BFT) = P(female|Other) = P(female|Shot) = P(female|Stabbed)\)
+\(Ha:\) At least one probability in H0 is not the same.
+
+Under the null hypothesis, \(X^2\) follows chi-square distribution with
+d.f = (2-1)*(4-1) = 3
+
+ Test statistic is 24.3067077 and p-value is
+2.1554834\times 10\^{}\{-5\}.
+
+We got table of expected value, table of standard residuals and table of
+\(X^2\):
+
+\begin{verbatim}
+##         death
+## gen          BFT    Other     Shot  Stabbed
+##   Female 31.0757 20.31873 37.05179 61.55378
+##   Male   20.9243 13.68127 24.94821 41.44622
+\end{verbatim}
+
+\begin{verbatim}
+##         death
+## gen             BFT      Other       Shot    Stabbed
+##   Female  2.1991361  2.8891377 -4.1938149 -0.1449092
+##   Male   -2.1991361 -2.8891377  4.1938149  0.1449092
+\end{verbatim}
+
+\begin{verbatim}
+##         death
+## gen              BFT       Other        Shot     Stabbed
+##   Female 1.542876698 2.903823139 5.329104657 0.004982272
+##   Male   2.291401037 4.312608622 7.914511866 0.007399413
+\end{verbatim}
+
+ Stabbed differed the least from what was expected under the null. Shot
+tended to report less than expected under H0 and it contributed the most
+to the rejection of H0.
+
+\textbf{Wilson-Adjusted Bonferroni Corrected Confidence Intervals}
+
+To know how gender depends on death types, we'd like to compare the
+probability of being female for different death types using Bonferroni
+corrected confidence interval.
+
+Since we have four groups (BFT, Other, Shot, Stabbed), we compare 6
+differences in total (4 chooses 2 equals 6).
+
+\(g = 6\); \(alpha = 0.05\)
+
+\begin{verbatim}
+##                                           Lower       Upper
+## P(female|BFT)-P(female|Other)     -0.3202795270  0.15361286
+## P(female|BFT)-P(female|Shot)       0.1206199680  0.57382448
+## P(female|BFT)-P(female|Stabbed)   -0.0729209474  0.33641301
+## P(female|Other)-P(female|Shot)     0.1943894702  0.66672164
+## P(female|Other)-P(female|Stabbed) -0.0001284661  0.43028720
+## P(female|Shot)-P(female|Stabbed)  -0.4192395177 -0.01171286
+\end{verbatim}
+
+\subsection{4. Interpretation}\label{interpretation}
+
+ From Pearson's Test, p-value is 2.1554834\times 10\^{}\{-5\}. If gender
+and death type are independent, we would observe our data or more
+extreme with probability 2.1554834\times 10\^{}\{-5\}. Since p value is
+much smaller than alpha, we reject H0 and conclude that gender and death
+types are dependent.
+
+Continually, we compare 6 pairs of difference. Among the results:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Confidence Intervals for
+  P(female\textbar{}BFT)-P(female\textbar{}Other),
+  P(female\textbar{}BFT)-P(female\textbar{}Stabbed),
+  P(female\textbar{}Other)-P(female\textbar{}Stabbed) contain 0;
+\item
+  P(female\textbar{}BFT)-P(female\textbar{}Shot),
+  P(female\textbar{}Other)-P(female\textbar{}Shot) are larger than 0;
+\item
+  P(female\textbar{}Shot)-P(female\textbar{}Stabbed) is smaller than 0.
+\end{enumerate}
+
+We are overall 95\% confident that the probabilities for female to die
+in BFT, Other and Stabbed are the same, which is larger than the
+probability of Shot. In other words, it is least probable for women to
+die of shot.
+
+\subsection{5. Conclusion}\label{conclusion}
+
+Based on above tests and calculations, we find that gender and death
+type are dependent. The probability for female to die of shot is less
+than other death types. The probability of other 3 death types for
+female is approximately the same.
+
+\subsubsection{R Appendix}\label{r-appendix}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{horror =}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{'horror.csv'}\NormalTok{)}
+\NormalTok{n_sum =}\StringTok{ }\KeywordTok{nrow}\NormalTok{(horror)}
+\NormalTok{table_data =}\StringTok{ }\KeywordTok{table}\NormalTok{(horror)}
+\NormalTok{y1 =}\StringTok{ }\NormalTok{table_data[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{y2 =}\StringTok{ }\NormalTok{table_data[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{y3 =}\StringTok{ }\NormalTok{table_data[}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{]}
+\NormalTok{y4 =}\StringTok{ }\NormalTok{table_data[}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{]}
+\NormalTok{n1 =}\StringTok{ }\KeywordTok{sum}\NormalTok{(table_data[,}\DecValTok{1}\NormalTok{])}
+\NormalTok{n2 =}\StringTok{ }\KeywordTok{sum}\NormalTok{(table_data[,}\DecValTok{2}\NormalTok{])}
+\NormalTok{n3 =}\StringTok{ }\KeywordTok{sum}\NormalTok{(table_data[,}\DecValTok{3}\NormalTok{])}
+\NormalTok{n4 =}\StringTok{ }\KeywordTok{sum}\NormalTok{(table_data[,}\DecValTok{4}\NormalTok{])}
+\KeywordTok{barplot}\NormalTok{(table_data, }\DataTypeTok{beside =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{main =} \StringTok{'Gender vs Death Type'}\NormalTok{, }\DataTypeTok{legend.text =} \KeywordTok{rownames}\NormalTok{(table_data), }\DataTypeTok{args.legend =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{x =} \StringTok{'topright'}\NormalTok{)) }
+\NormalTok{table2 =}\StringTok{ }\KeywordTok{table}\NormalTok{(horror}\OperatorTok{$}\NormalTok{death, horror}\OperatorTok{$}\NormalTok{gen)}
+\KeywordTok{mosaicplot}\NormalTok{(table2, }\DataTypeTok{main =} \StringTok{'Gender vs Death Type'}\NormalTok{)}
+\NormalTok{table_data}
+\NormalTok{pearson.test =}\StringTok{ }\KeywordTok{chisq.test}\NormalTok{(table_data, }\DataTypeTok{correct =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{test.stat =}\StringTok{ }\NormalTok{pearson.test}\OperatorTok{$}\NormalTok{statistic}
+\NormalTok{p.val =}\StringTok{ }\NormalTok{pearson.test}\OperatorTok{$}\NormalTok{p.value}
+\NormalTok{expt =}\StringTok{ }\NormalTok{pearson.test}\OperatorTok{$}\NormalTok{expected}
+\NormalTok{stdres =}\StringTok{ }\NormalTok{pearson.test}\OperatorTok{$}\NormalTok{stdres}
+\NormalTok{x_sqr =}\StringTok{ }\NormalTok{(pearson.test}\OperatorTok{$}\NormalTok{observed }\OperatorTok{-}\StringTok{ }\NormalTok{pearson.test}\OperatorTok{$}\NormalTok{expected)}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\NormalTok{pearson.test}\OperatorTok{$}\NormalTok{expected}
+\NormalTok{expt}
+\NormalTok{stdres}
+\NormalTok{x_sqr}
+\NormalTok{g =}\StringTok{ }\DecValTok{6}
+\NormalTok{alpha =}\StringTok{ }\FloatTok{0.05}
+\NormalTok{ci1 =}\StringTok{ }\KeywordTok{prop.test}\NormalTok{(}\KeywordTok{c}\NormalTok{(y1}\OperatorTok{+}\DecValTok{1}\NormalTok{, y2}\OperatorTok{+}\DecValTok{1}\NormalTok{), }\KeywordTok{c}\NormalTok{(n1}\OperatorTok{+}\DecValTok{2}\NormalTok{, n2}\OperatorTok{+}\DecValTok{2}\NormalTok{), }\DataTypeTok{correct =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{conf.level =} \DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{alpha}\OperatorTok{/}\NormalTok{g)}\OperatorTok{$}\NormalTok{conf.int[}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{ci2 =}\StringTok{ }\KeywordTok{prop.test}\NormalTok{(}\KeywordTok{c}\NormalTok{(y1}\OperatorTok{+}\DecValTok{1}\NormalTok{, y3}\OperatorTok{+}\DecValTok{1}\NormalTok{), }\KeywordTok{c}\NormalTok{(n1}\OperatorTok{+}\DecValTok{2}\NormalTok{, n3}\OperatorTok{+}\DecValTok{2}\NormalTok{), }\DataTypeTok{correct =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{conf.level =} \DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{alpha}\OperatorTok{/}\NormalTok{g)}\OperatorTok{$}\NormalTok{conf.int[}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{ci3 =}\StringTok{ }\KeywordTok{prop.test}\NormalTok{(}\KeywordTok{c}\NormalTok{(y1}\OperatorTok{+}\DecValTok{1}\NormalTok{, y4}\OperatorTok{+}\DecValTok{1}\NormalTok{), }\KeywordTok{c}\NormalTok{(n1}\OperatorTok{+}\DecValTok{2}\NormalTok{, n4}\OperatorTok{+}\DecValTok{2}\NormalTok{), }\DataTypeTok{correct =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{conf.level =} \DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{alpha}\OperatorTok{/}\NormalTok{g)}\OperatorTok{$}\NormalTok{conf.int[}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{ci4 =}\StringTok{ }\KeywordTok{prop.test}\NormalTok{(}\KeywordTok{c}\NormalTok{(y2}\OperatorTok{+}\DecValTok{1}\NormalTok{, y3}\OperatorTok{+}\DecValTok{1}\NormalTok{), }\KeywordTok{c}\NormalTok{(n2}\OperatorTok{+}\DecValTok{2}\NormalTok{, n3}\OperatorTok{+}\DecValTok{2}\NormalTok{), }\DataTypeTok{correct =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{conf.level =} \DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{alpha}\OperatorTok{/}\NormalTok{g)}\OperatorTok{$}\NormalTok{conf.int[}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{ci5 =}\StringTok{ }\KeywordTok{prop.test}\NormalTok{(}\KeywordTok{c}\NormalTok{(y2}\OperatorTok{+}\DecValTok{1}\NormalTok{, y4}\OperatorTok{+}\DecValTok{1}\NormalTok{), }\KeywordTok{c}\NormalTok{(n2}\OperatorTok{+}\DecValTok{2}\NormalTok{, n4}\OperatorTok{+}\DecValTok{2}\NormalTok{), }\DataTypeTok{correct =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{conf.level =} \DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{alpha}\OperatorTok{/}\NormalTok{g)}\OperatorTok{$}\NormalTok{conf.int[}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{ci6 =}\StringTok{ }\KeywordTok{prop.test}\NormalTok{(}\KeywordTok{c}\NormalTok{(y3}\OperatorTok{+}\DecValTok{1}\NormalTok{, y4}\OperatorTok{+}\DecValTok{1}\NormalTok{), }\KeywordTok{c}\NormalTok{(n3}\OperatorTok{+}\DecValTok{2}\NormalTok{, n4}\OperatorTok{+}\DecValTok{2}\NormalTok{), }\DataTypeTok{correct =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{conf.level =} \DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{alpha}\OperatorTok{/}\NormalTok{g)}\OperatorTok{$}\NormalTok{conf.int[}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{results =}\StringTok{ }\KeywordTok{rbind}\NormalTok{(ci1, ci2, ci3, ci4, ci5, ci6)}
+\KeywordTok{colnames}\NormalTok{(results) =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'Lower'}\NormalTok{,}\StringTok{'Upper'}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(results) =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'P(female|BFT)-P(female|Other)'}\NormalTok{,}\StringTok{'P(female|BFT)-P(female|Shot)'}\NormalTok{,}\StringTok{'P(female|BFT)-P(female|Stabbed)'}\NormalTok{,}\StringTok{'P(female|Other)-P(female|Shot)'}\NormalTok{,}\StringTok{'P(female|Other)-P(female|Stabbed)'}\NormalTok{,}\StringTok{'P(female|Shot)-P(female|Stabbed)'}\NormalTok{)}
+\NormalTok{results}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

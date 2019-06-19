@@ -1,0 +1,223 @@
+---
+title:  |
+  | \vspace{6.5cm} \LARGE{Project II - Angina}
+author: "Yuhan Ning 915486450 \n Dandi Peng    915553480"
+date: "3/1/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+
+## I. Summary
+```{r fig.width=3.5, fig.height=4, echo=FALSE}
+angina <- read.csv('angina.csv', header = T)
+angina$y <- as.factor(angina$y)
+## I. Summary
+library(ggplot2)
+ggplot(data=angina)+geom_boxplot(aes(x=y,y=age))+theme_bw()+ggtitle('Age Distribution')+
+  theme(axis.text=element_text(size=10),
+          plot.title = element_text(size = 12, hjust=0.5, face = 'bold'),
+          legend.position="none")
+ggplot(data=angina)+geom_boxplot(aes(x=y,y=cig))+theme_bw()+ggtitle('Cigrettes Distribution')+
+  theme(axis.text=element_text(size=10),
+          plot.title = element_text(size = 12, hjust=0.5, face = 'bold'),
+          legend.position="none")
+```
+
+```{r fig.width=3.5, fig.height=4, echo=FALSE}
+res_images <- function(x.var,df){
+  ggplot(df,aes_string(x = x.var))+
+  geom_bar(aes(y = ..count.., group=y), color = "white",
+    position = position_dodge(0.9))+
+  facet_wrap(~y)+theme_bw()+ggtitle(paste(x.var, 'Distribution'))+
+  theme(axis.text=element_text(size=10),
+          plot.title = element_text(size = 12, hjust=0.5, face = 'bold'),
+          legend.position="none")
+}
+
+for (i in c(colnames(angina)[c(3,5,6,7,8)])){
+  print(res_images(i,angina))
+}
+```
+
+```{r fig.width=3.5, fig.height=4, echo=FALSE}
+prd_images <- function(x.var,y.var,df){
+  ggplot(df,aes_string(x = x.var, y =y.var))+geom_boxplot()+
+    theme_bw()+ggtitle(paste(x.var, 'to', y.var))+
+  theme(axis.text=element_text(size=10),
+          plot.title = element_text(size = 12, hjust=0.5, face = 'bold'),
+          legend.position="none")
+}
+
+# age
+for (i in c(colnames(angina)[c(3,5,6,7,8)])){
+  print(prd_images(i,'age', angina))
+}
+
+# cig
+for (i in c(colnames(angina)[c(3,5,6,7,8)])){
+  print(prd_images(i,'cig', angina))
+}
+```
+
+
+## II. Data Preparation
+```{r, echo=FALSE}
+# II. Data Preparation
+full.model = glm(y~.,data = angina,family = binomial(link=logit))
+
+## a) Outlier check
+library(LogisticDx)
+good.stuff = as.data.frame(dx(full.model))
+pear.r = good.stuff$Pr #Pearsons Residuals
+std.r = good.stuff$sPr #Standardized residuals (Pearson)
+df.beta = good.stuff$dBhat #DF Beta for removing each observation
+change.pearson = good.stuff$dChisq #Change in pearson X^2 for each observation
+hist(std.r, main = "Pearson Standardized Residuals")
+# there are outliers far from the mean $\pm 3$
+cutoff.std = 3.0
+good.stuff[abs(pear.r) > cutoff.std,c(1:(length(full.model$coefficients)+1),which(names(good.stuff) == "Pr"))]
+
+plot(df.beta,main = "Index plot of the change in the Betas")
+abline(h =0.3, col = 'red', lty=5)
+
+good.stuff[df.beta > 0.3,c(1:(length(full.model$coefficients)+1),which(names(good.stuff) == "dBhat"))]
+plot(full.model)
+```
+
+
+## III. Model Selection/Analysis
+```{r, echo=FALSE}
+empty.model = glm(y~1, data=angina, family=binomial(link =logit))
+# model correction
+best.FB.BIC = step(empty.model,scope = list(lower = empty.model, upper = full.model),direction = "both", criterion = "BIC", trace = FALSE)
+best.FB.BIC$coefficients
+summary(best.FB.BIC)
+
+# All Subsets
+library(bestglm)
+best.subset.BIC = bestglm(Xy = angina, family = binomial(link=logit),IC = "BIC",method = "exhaustive")
+```
+
+```{r, echo=FALSE}
+# III. Hypothesis Test Based on the p value
+## a) X_2: smoke (can be dropped or not)
+All.Criteria = function(the.model){
+  p = length(the.model$coefficients)
+  n = length(the.model$residuals)
+  the.LL = logLik(the.model)
+  the.BIC =  -2*the.LL + log(n)*p
+  the.AIC =  -2*the.LL + 2*p
+  the.results = c(the.LL,p,n,the.AIC,the.BIC)
+  names(the.results) = c("LL","p","n","AIC","BIC")
+  return(the.results)
+}
+
+Models = c("y~age+myofam+hyper+cig", "y~smoke+age+myofam+hyper+cig")
+model.crit = t(sapply(Models,function(M){
+  current.model = glm(M,data = angina,family = binomial(link = logit))
+  All.Criteria(current.model)
+}))
+model.crit
+```
+
+$$H_0: \beta_{2,ex}=0,\ \beta_{2,nv}=0$$
+
+$$H_a:\ at\ least\ one\ of\ \beta_{2,i} \neq 0$$
+Based on the above output, the test statistics is $G^2=-2(L_0-L_1)=-2(-79.49318-(-72.67029))=13.64578$, and the d.f. $=8-6=2$.
+
+The corresponding p value $=P(\chi_2^2 > G^2)=0.00108857$, which is less than any $\alpha's$, therefore, we reject the null hypothesis and cannot drop the smoke variable.
+
+$$H_0: \beta_{2,ex}=0,\ \ H_a: \beta_{2,ex}\neq0$$
+The Wald test statistics is $\frac{\hat{\beta_{2,ex}}-0}{SE(\hat{\beta_{2,ex}})}=\frac{0.65713}{0.83649}=0.786$, and its corresponding p value is $P(Z^2>0.786)=0.43211$, which is large than any $\alpha's$, therefore, we fail to reject the null hypothesis and can drop $\beta_{2,ex}$.
+
+Combined the above two tests, we can conclude that smoke varaible should be contained, but there is no significant difference between "ex" and "current" smoking status and we can merge them to be one level - 'some history smoking' vs. the rest 'never smoked'.
+
+```{r, echo=FALSE}
+# combined 'ex' and 'current' smoking status
+smoke_2 = as.factor(ifelse(angina$smoke == 'ex' | angina$smoke == 'current','smoked','never'))
+angina['smoke'] = smoke_2
+
+# FB again
+empty.model2 = glm(y~1, data=angina, family=binomial(link =logit))
+full.model2 = glm(y~., data=angina, family=binomial(link =logit))
+# model correction
+best.FB.BIC2 = step(empty.model2,scope = list(lower = empty.model2, upper = full.model2),direction = "both", criterion = "BIC", trace = FALSE)
+best.FB.BIC2$coefficients
+summary(best.FB.BIC2)
+```
+
+It is satisfying to find out that all variables are significant.
+
+Now let's go to the interaction check.
+
+```{r,echo=FALSE}
+Models_int = c("y~smoke+age+myofam+hyper+cig","y~smoke+age+myofam+hyper+cig+smoke*age+smoke*cig")
+model_int.crit = t(sapply(Models_int,function(M){
+  current.model = glm(M,data = angina,family = binomial(link = logit))
+  All.Criteria(current.model)
+}))
+model_int.crit
+```
+
+Based on above output, it is unnecessary to include the interactions.
+
+Therefore, our final best "model correction" regression function is:
+$$In(\frac{\pi}{1-\pi})=-8.69170+0.11041X_1+1.84165X_{2,smoked}+0.0797X_3+1.29134X_{4,mild}+2.16431X_{4,mod}+2.41750X_{5,yes}$$
+where $X_1:$ age, $X_{2,i}:$ smoke, $X_3:$ cig, $X_{4,i}:$ hyper, and $X_{5,i}:$ myofam.
+
+
+## IV. Interpretation
+```{r, echo=FALSE}
+confint(best.FB.BIC2)
+```
+
+$exp(0.11041)=1.1167$: When the age of a subject increases 1 unit, the estimated odds that the subject had angina is multiplied by $1.1167$, holding the other variables constant.
+
+$exp(1.84165)=6.3069$: The estimated odds that a subject who has some smoking history for certain hypertension history and certain myocardial infarction history had angina is $6.3069$ times that who has never smoked was.
+
+
+
+
+**age** and **myofam** (myocardial infarction)
+
+
+
+## V. Prediction
+```{r, echo=FALSE}
+# Error Matrix
+pi.0 = 0.50
+truth = angina$y #The true values of y
+predicted = ifelse(fitted(best.FB.BIC2)>pi.0,1,0) #The predicted values of y based on pi.0
+my.table = table(truth,predicted) 
+sens = sum(predicted == 1 & truth == 1 )/sum(truth == 1)
+spec = sum(predicted == 0 & truth == 0 )/sum(truth == 0)
+error = sum(predicted != truth)/length(predicted)
+results = c(sens,spec,error)
+names(results) = c("Sensitivity","Specificity","Error-Rate")
+my.table
+results
+```
+
+
+```{r , echo=FALSE}
+# ROC curve
+library(pROC)
+my.auc = auc(best.FB.BIC2$y,fitted(best.FB.BIC2),plot = TRUE,legacy.axes = TRUE)
+my.auc
+auc.CI = ci(my.auc,level = 1-0.05) #for a 95% confidence interval.
+auc.CI
+```
+
+
+```{r, echo=FALSE}
+predict(best.FB.BIC2, newdata = data.frame(smoke = "never",age = 50, cig=0, hyper='absent', myofam="no"),type = "response")
+```
+
+
+
+## VI. Conclusion

@@ -5,8 +5,12 @@ library(forecast)
 
 # description of the data
 # setwd("D:/R/R-HW")
-rent=read.csv("2beds1.csv",header=T)  #Rename the variables
+rent=read.csv("Time_Series_Analysis/2beds1.csv",header=T)  #Rename the variables
 rent=ts(rent$X2beds,start=c(2010,11),frequency=12)  #Read the data as time series
+
+# data construction
+str(rent)
+class(rent)
 
 # estimating trend
 time = 1:length(rent) #Creat time
